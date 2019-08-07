@@ -6,11 +6,11 @@ class Timeline extends Component {
     super(props);
     this.state = {
       toPostText: "",
-      postDemography: "Friends",
+      postDemography: "Public",
       posts: [],
       postId: 0,
       filteredPosts: [],
-      activeFilter: "All"
+      activeFilter: "Public"
     };
   }
 
@@ -21,7 +21,7 @@ class Timeline extends Component {
                 postDemography: postDemography
               })
 
-    if (this.state.activeFilter === "All") {
+    if (this.state.activeFilter === "Public") {
       this.setState({posts})
       this.setState({
         filteredPosts: posts
@@ -73,7 +73,7 @@ class Timeline extends Component {
   }
 
   activateFilter = () => {
-    if (this.state.posts !== [] && this.state.activeFilter !== "All") {
+    if (this.state.posts !== [] && this.state.activeFilter !== "Public") {
       const filteredPosts = [...this.state.posts].filter(post => post["postDemography"] === this.state.activeFilter)
       this.setState({filteredPosts})
     } else if (this.state.posts !== []) {
@@ -97,7 +97,6 @@ class Timeline extends Component {
           </form>
           <button type="button" value="Friends" onClick={this.handleFilter}>Friends</button>
           <button type="button" value="Public" onClick={this.handleFilter}>Public</button>
-          <button type="button" value="All" onClick={this.handleFilter}>All</button>
         {this.state.filteredPosts.map((post, index) => <Post key={post.id} text={post.text} id={post.id} onDelete={this.handleDelete(index)}/>)}
       </div>
     )
