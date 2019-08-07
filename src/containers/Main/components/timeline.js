@@ -20,13 +20,14 @@ class Timeline extends Component {
                 id: id,
                 postDemography: postDemography
               })
-    this.setState({posts})
+
     if (this.state.activeFilter === "All") {
+      this.setState({posts})
       this.setState({
         filteredPosts: posts
       })
     } else {
-      this.activateFilter()
+      this.setState({posts}, () => this.activateFilter())
     }
   }
 
@@ -60,8 +61,7 @@ class Timeline extends Component {
       filteredPosts = filteredPosts.splice(index, 1)
       this.setState({filteredPosts})
       const posts = [...this.state.posts].filter(post => post["id"] !== id)
-      this.setState({posts})
-      this.activateFilter()
+      this.setState({posts}, () => this.activateFilter())
     }
   }
 
@@ -75,7 +75,7 @@ class Timeline extends Component {
   activateFilter = () => {
     if (this.state.posts !== [] && this.state.activeFilter !== "All") {
       const filteredPosts = [...this.state.posts].filter(post => post["postDemography"] === this.state.activeFilter)
-      this.setState({filteredPosts}, () => console.log(this.state.filteredPosts))
+      this.setState({filteredPosts})
     } else if (this.state.posts !== []) {
       const allPosts = [...this.state.posts]
       this.setState({
@@ -98,7 +98,7 @@ class Timeline extends Component {
           <button type="button" value="Friends" onClick={this.handleFilter}>Friends</button>
           <button type="button" value="Public" onClick={this.handleFilter}>Public</button>
           <button type="button" value="All" onClick={this.handleFilter}>All</button>
-        {this.state.filteredPosts.map((post, index) => <Post text={post.text} id={post.id} onDelete={this.handleDelete(index)}/>)}
+        {this.state.filteredPosts.map((post, index) => <Post key={post.id} text={post.text} id={post.id} onDelete={this.handleDelete(index)}/>)}
       </div>
     )
   }
